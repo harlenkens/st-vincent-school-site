@@ -6,10 +6,28 @@ body {
   max-width: 100%;
 }
 
-/* Only reserve/show a vertical scrollbar when the page actually overflows */
+/* Keep scrolling, hide the vertical scrollbar chrome */
 html {
   overflow-y: auto;
-  scrollbar-gutter: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge */
+}
+
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none; /* Chrome, Safari */
+}
+
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .page-blur-title {
