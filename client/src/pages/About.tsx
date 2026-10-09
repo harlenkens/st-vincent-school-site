@@ -1,10 +1,6 @@
 import {
-  ArrowRight,
   ArrowUpRight,
   Award,
-  BookOpen,
-  Calendar,
-  CheckCircle,
   GraduationCap,
   Hand,
   HeartHandshake,
@@ -15,6 +11,10 @@ import {
   Users,
 } from "lucide-react";
 import { Link } from "wouter";
+import BlurText from "@/components/react-bits/BlurText";
+import CountUp from "@/components/react-bits/CountUp";
+import Magnet from "@/components/react-bits/Magnet";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const fourHs = [
   {
@@ -112,38 +112,46 @@ export default function About() {
       {/* About Hero Section */}
       <section className="about-section section-pad">
         <div className="container about-grid">
-          <div className="section-intro">
-            <p className="eyebrow">
-              <span className="eyebrow-dot coral-dot" /> The VSOP Story
-            </p>
-            <h2>
-              Education is a <span>prime instrument</span> for change.
-            </h2>
-          </div>
-          <div className="about-copy">
-            <p className="large-copy">
-              From a humble community preschool in 1997 to a comprehensive
-              elementary and high school institution, VSOP has held fast to one
-              enduring truth: every child is unique and has boundless potential
-              to unlock.
-            </p>
-            <div className="about-details">
-              <div>
-                <strong>Our Promise</strong>
-                <span>
-                  Quality education that remains accessible to families, with
-                  holistic student welfare at the center of every decision.
-                </span>
-              </div>
-              <div>
-                <strong>Our Horizon</strong>
-                <span>
-                  Locally responsive, globally competitive, and continuously
-                  evolving to prepare young minds for tomorrow.
-                </span>
+          <Reveal>
+            <div className="section-intro">
+              <p className="eyebrow">
+                <span className="eyebrow-dot coral-dot" /> The VSOP Story
+              </p>
+              <BlurText
+                as="h2"
+                text="Education is a prime instrument for change."
+                delay={60}
+                animateBy="words"
+                className="page-blur-title"
+              />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="about-copy">
+              <p className="large-copy">
+                From a humble community preschool in 1997 to a comprehensive
+                elementary and high school institution, VSOP has held fast to one
+                enduring truth: every child is unique and has boundless potential
+                to unlock.
+              </p>
+              <div className="about-details">
+                <div>
+                  <strong>Our Promise</strong>
+                  <span>
+                    Quality education that remains accessible to families, with
+                    holistic student welfare at the center of every decision.
+                  </span>
+                </div>
+                <div>
+                  <strong>Our Horizon</strong>
+                  <span>
+                    Locally responsive, globally competitive, and continuously
+                    evolving to prepare young minds for tomorrow.
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -182,7 +190,9 @@ export default function About() {
               </p>
               <div className="heritage-stats">
                 <div className="heritage-stat">
-                  <strong>25+</strong>
+                  <strong>
+                    <CountUp to={25} duration={1.6} />+
+                  </strong>
                   <span>Years of service</span>
                 </div>
                 <div className="heritage-stat">
@@ -190,7 +200,9 @@ export default function About() {
                   <span>Complete levels</span>
                 </div>
                 <div className="heritage-stat">
-                  <strong>4H</strong>
+                  <strong>
+                    <CountUp to={4} duration={1.2} />H
+                  </strong>
                   <span>Holistic pillars</span>
                 </div>
               </div>
@@ -220,15 +232,17 @@ export default function About() {
             </p>
           </div>
 
-          <div className="pillars-grid">
+          <Stagger className="pillars-grid" stagger={0.1}>
             {pillars.map((pillar) => (
-              <article key={pillar.badge} className={`pillar-card pillar-${pillar.tone}`}>
-                <span className="pillar-badge">{pillar.badge}</span>
-                <h3>{pillar.title}</h3>
-                <p>"{pillar.quote}"</p>
-              </article>
+              <StaggerItem key={pillar.badge}>
+                <article className={`pillar-card pillar-${pillar.tone}`}>
+                  <span className="pillar-badge">{pillar.badge}</span>
+                  <h3>{pillar.title}</h3>
+                  <p>"{pillar.quote}"</p>
+                </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
 
           {/* Philosophy Wall Showcase */}
           <div className="space-showcase-card" style={{ marginTop: "2.5rem", maxWidth: "900px", marginInline: "auto" }}>
@@ -268,22 +282,24 @@ export default function About() {
               simply, live gracefully, and give respect to one another.
             </p>
           </div>
-          <div className="four-h-grid">
+          <Stagger className="four-h-grid" stagger={0.08}>
             {fourHs.map(({ name, detail, subtext, icon: Icon, className, number }) => (
-              <article key={name} className={`h-card ${className}`}>
-                <div className="h-card-top">
-                  <span>{number}</span>
-                  <Icon size={22} strokeWidth={1.8} />
-                </div>
-                <div>
-                  <h3>{name}</h3>
-                  <p>{detail}</p>
-                  <small className="h-card-subtext">{subtext}</small>
-                </div>
-                <ArrowUpRight className="h-card-arrow" size={20} />
-              </article>
+              <StaggerItem key={name}>
+                <article className={`h-card ${className}`}>
+                  <div className="h-card-top">
+                    <span>{number}</span>
+                    <Icon size={22} strokeWidth={1.8} />
+                  </div>
+                  <div>
+                    <h3>{name}</h3>
+                    <p>{detail}</p>
+                    <small className="h-card-subtext">{subtext}</small>
+                  </div>
+                  <ArrowUpRight className="h-card-arrow" size={20} />
+                </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -299,17 +315,19 @@ export default function About() {
             </h2>
           </div>
 
-          <div className="timeline-grid">
-            {milestones.map((m, idx) => (
-              <div key={m.year} className="timeline-item">
-                <div className="timeline-year-badge">{m.year}</div>
-                <div className="timeline-body">
-                  <h4>{m.title}</h4>
-                  <p>{m.detail}</p>
+          <Stagger className="timeline-grid" stagger={0.09}>
+            {milestones.map((m) => (
+              <StaggerItem key={m.year}>
+                <div className="timeline-item">
+                  <div className="timeline-year-badge">{m.year}</div>
+                  <div className="timeline-body">
+                    <h4>{m.title}</h4>
+                    <p>{m.detail}</p>
+                  </div>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -370,9 +388,11 @@ export default function About() {
                 <p>
                   Experience the warmth and dedication of our faculty firsthand.
                 </p>
-                <Link href="/contact" className="primary-button" style={{ marginTop: "1rem" }}>
-                  Inquire for enrollment <ArrowUpRight size={16} />
-                </Link>
+                <Magnet padding={36} magnetStrength={3} wrapperClassName="mt-4 inline-block">
+                  <Link href="/contact" className="primary-button">
+                    Inquire for enrollment <ArrowUpRight size={16} />
+                  </Link>
+                </Magnet>
               </div>
             </div>
           </div>

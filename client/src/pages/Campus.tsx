@@ -6,11 +6,20 @@ import {
   Eye,
   Info,
   MapPin,
-  Sparkles,
-  X,
   CheckCircle2,
 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { Link } from "wouter";
+import BlurText from "@/components/react-bits/BlurText";
+import Magnet from "@/components/react-bits/Magnet";
+import { Reveal } from "@/components/motion/Reveal";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Facility {
   id: string;
@@ -205,65 +214,72 @@ export default function Campus() {
 
   return (
     <>
-      {/* Campus Hero */}
       <section className="campus-section section-pad">
         <div className="container campus-grid">
-          <div className="campus-photo-wrap">
-            <img
-              src="/images/campus-hero-exterior.jpg"
-              alt="Village School of Parkwoods campus building in Parkwood Hills"
-              loading="lazy"
-            />
-            <div className="campus-tag">
-              <span>Parkwood Hills</span>
-              <strong>Our Campus Home</strong>
-            </div>
-            <div className="campus-doodle" aria-hidden="true">
-              ↗
-            </div>
-          </div>
-          <div className="campus-copy">
-            <p className="eyebrow">
-              <span className="eyebrow-dot green-dot" /> Spaces that support growth
-            </p>
-            <h2>
-              Little moments.
-              <br />
-              <span>Big becoming.</span>
-            </h2>
-            <p>
-              Nestled inside the quiet Parkwood Hills community in Cainta, Rizal,
-              our campus gives learners a secure, tree-lined sanctuary to think,
-              create, collaborate, and grow.
-            </p>
-            <div className="location-line">
-              <MapPin size={18} />
-              <div>
-                <strong>Find us in Parkwood Hills</strong>
-                <span>
-                  Block 6 Lot 8, Durian St., Violago Homes, Parkwood Hills,
-                  Brgy. San Isidro, Cainta, Rizal
-                </span>
+          <Reveal>
+            <div className="campus-photo-wrap">
+              <img
+                src="/images/campus-hero-exterior.jpg"
+                alt="Village School of Parkwoods campus building in Parkwood Hills"
+                loading="lazy"
+              />
+              <div className="campus-tag">
+                <span>Parkwood Hills</span>
+                <strong>Our Campus Home</strong>
+              </div>
+              <div className="campus-doodle" aria-hidden="true">
+                ↗
               </div>
             </div>
-            <div className="hero-actions" style={{ marginTop: "1.8rem" }}>
-              <Link href="/contact" className="primary-button">
-                Schedule a campus visit <ArrowUpRight size={16} />
-              </Link>
-              <a
-                href="#facilities"
-                className="text-button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document
-                    .getElementById("facilities")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Browse facilities <ArrowRight size={16} />
-              </a>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="campus-copy">
+              <p className="eyebrow">
+                <span className="eyebrow-dot green-dot" /> Spaces that support growth
+              </p>
+              <BlurText
+                as="h2"
+                text="Little moments. Big becoming."
+                delay={55}
+                animateBy="words"
+                className="page-blur-title"
+              />
+              <p>
+                Nestled inside the quiet Parkwood Hills community in Cainta, Rizal,
+                our campus gives learners a secure, tree-lined sanctuary to think,
+                create, collaborate, and grow.
+              </p>
+              <div className="location-line">
+                <MapPin size={18} />
+                <div>
+                  <strong>Find us in Parkwood Hills</strong>
+                  <span>
+                    Block 6 Lot 8, Durian St., Violago Homes, Parkwood Hills,
+                    Brgy. San Isidro, Cainta, Rizal
+                  </span>
+                </div>
+              </div>
+              <div className="hero-actions" style={{ marginTop: "1.8rem" }}>
+                <Magnet padding={34} magnetStrength={3}>
+                  <Link href="/contact" className="primary-button">
+                    Schedule a campus visit <ArrowUpRight size={16} />
+                  </Link>
+                </Magnet>
+                <a
+                  href="#facilities"
+                  className="text-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document
+                      .getElementById("facilities")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Browse facilities <ArrowRight size={16} />
+                </a>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -313,41 +329,51 @@ export default function Campus() {
             ))}
           </div>
 
-          {/* Facilities Grid */}
-          <div className="facility-cards-grid">
-            {filteredFacilities.map((facility) => (
-              <article
-                key={facility.id}
-                className="facility-card"
-                onClick={() => setSelectedFacility(facility)}
-              >
-                <div className="facility-img-wrapper">
-                  <img
-                    src={facility.image}
-                    alt={facility.name}
-                    loading="lazy"
-                  />
-                  <div className="facility-badge">{facility.tag}</div>
-                  <div className="facility-overlay">
-                    <span className="facility-overlay-action">
-                      <Eye size={16} /> View details
-                    </span>
+          <AnimatePresence mode="popLayout">
+            <motion.div
+              key={activeCategory}
+              className="facility-cards-grid"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.3 }}
+            >
+              {filteredFacilities.map((facility) => (
+                <motion.article
+                  key={facility.id}
+                  layout
+                  className="facility-card"
+                  whileHover={{ y: -5 }}
+                  onClick={() => setSelectedFacility(facility)}
+                >
+                  <div className="facility-img-wrapper">
+                    <img
+                      src={facility.image}
+                      alt={facility.name}
+                      loading="lazy"
+                    />
+                    <div className="facility-badge">{facility.tag}</div>
+                    <div className="facility-overlay">
+                      <span className="facility-overlay-action">
+                        <Eye size={16} /> View details
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="facility-content">
-                  <h3>{facility.name}</h3>
-                  <p>{facility.description}</p>
-                  <ul className="facility-feature-tags">
-                    {facility.features.slice(0, 2).map((feat, idx) => (
-                      <li key={idx}>
-                        <CheckCircle2 size={12} /> {feat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-            ))}
-          </div>
+                  <div className="facility-content">
+                    <h3>{facility.name}</h3>
+                    <p>{facility.description}</p>
+                    <ul className="facility-feature-tags">
+                      {facility.features.slice(0, 2).map((feat, idx) => (
+                        <li key={idx}>
+                          <CheckCircle2 size={12} /> {feat}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.article>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
@@ -422,70 +448,61 @@ export default function Campus() {
         </div>
       </section>
 
-      {/* Modal Lightbox for selected facility */}
-      {selectedFacility && (
-        <div
-          className="facility-modal-backdrop"
-          onClick={() => setSelectedFacility(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            className="facility-modal-card"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="facility-modal-close"
-              onClick={() => setSelectedFacility(null)}
-              aria-label="Close details"
-            >
-              <X size={20} />
-            </button>
-            <div className="facility-modal-img">
-              <img
-                src={selectedFacility.image}
-                alt={selectedFacility.name}
-              />
-              <span className="facility-modal-tag">
-                {selectedFacility.tag}
-              </span>
-            </div>
-            <div className="facility-modal-body">
-              <p className="eyebrow">
-                <span className="eyebrow-dot green-dot" /> VSOP Campus Life
-              </p>
-              <h2>{selectedFacility.name}</h2>
-              <p className="modal-desc">{selectedFacility.description}</p>
-              <div className="modal-features-list">
-                <strong>Facility Highlights:</strong>
-                <ul>
-                  {selectedFacility.features.map((feat, idx) => (
-                    <li key={idx}>
-                      <Sparkles size={14} className="feature-bullet" />
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
+      <Dialog
+        open={!!selectedFacility}
+        onOpenChange={(open) => {
+          if (!open) setSelectedFacility(null);
+        }}
+      >
+        <DialogContent className="facility-dialog max-w-2xl gap-0 overflow-hidden p-0 sm:max-w-2xl">
+          {selectedFacility && (
+            <>
+              <div className="facility-modal-img">
+                <img
+                  src={selectedFacility.image}
+                  alt={selectedFacility.name}
+                />
+                <span className="facility-modal-tag">
+                  {selectedFacility.tag}
+                </span>
               </div>
-              <div className="modal-actions">
-                <Link
-                  href="/contact"
-                  className="primary-button"
-                  onClick={() => setSelectedFacility(null)}
-                >
-                  Ask about this facility <ArrowRight size={16} />
-                </Link>
-                <button
-                  className="text-button"
-                  onClick={() => setSelectedFacility(null)}
-                >
-                  Close preview
-                </button>
+              <div className="facility-modal-body p-6">
+                <DialogHeader>
+                  <p className="eyebrow">
+                    <span className="eyebrow-dot green-dot" /> VSOP Campus Life
+                  </p>
+                  <DialogTitle className="font-[family-name:Bricolage_Grotesque] text-3xl tracking-tight text-[#123e31]">
+                    {selectedFacility.name}
+                  </DialogTitle>
+                  <DialogDescription className="modal-desc text-base">
+                    {selectedFacility.description}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="modal-features-list">
+                  <strong>Facility Highlights:</strong>
+                  <ul>
+                    {selectedFacility.features.map((feat, idx) => (
+                      <li key={idx}>
+                        <CheckCircle2 size={14} className="feature-bullet" />
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="modal-actions">
+                  <Link
+                    href="/contact"
+                    className="primary-button"
+                    onClick={() => setSelectedFacility(null)}
+                  >
+                    Ask about this facility <ArrowRight size={16} />
+                  </Link>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

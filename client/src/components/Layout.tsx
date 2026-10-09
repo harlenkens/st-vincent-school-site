@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
-  ArrowRight,
   ArrowUpRight,
   Menu,
   Sparkles,
@@ -8,57 +7,86 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Link, useLocation } from "wouter";
+import Magnet from "@/components/react-bits/Magnet";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const navLinks = [
-  { label: "Our school", href: "/about" },
-  { label: "Curriculum", href: "/curriculum" },
-  { label: "Parent guide", href: "/parent-guide" },
-  { label: "Campus", href: "/campus" },
+  { label: "Home", href: "/", hint: "Start here" },
+  { label: "Our school", href: "/about", hint: "Story & 4H" },
+  { label: "Curriculum", href: "/curriculum", hint: "MATATAG & SHS" },
+  { label: "Parent guide", href: "/parent-guide", hint: "Family roadmap" },
+  { label: "Campus", href: "/campus", hint: "Spaces & tour" },
+  { label: "Contact", href: "/contact", hint: "Visit & inquire" },
 ];
+
+const DESKTOP_NAV_MIN = 900;
 
 export default function Layout({ children }: LayoutProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
   const [location] = useLocation();
+  const menuId = useId();
 
   const closeMenu = () => setMenuOpen(false);
+  const openMenu = () => setMenuOpen(true);
 
-  // Automatically scroll to top whenever the route changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
+    closeMenu();
   }, [location]);
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= DESKTOP_NAV_MIN) setMenuOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMenu();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
+
+  const desktopLinks = navLinks.filter(
+    (link) => link.href !== "/" && link.href !== "/contact",
+  );
+
   return (
-    <div className="min-h-screen bg-cream text-ink">
-      {/* Announcement Bar */}
+    <div className="site-shell">
       <div className="announcement-bar">
-        <div className="container flex items-center justify-between gap-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em]">
+        <div className="container announcement-inner">
           <span>A.Y. 2026–2027 · Students' Orientation</span>
-          <span className="hidden items-center gap-2 sm:flex">
+          <span className="announcement-aside">
             <Sparkles size={13} /> A place to grow fully
           </span>
         </div>
       </div>
 
-      {/* Header */}
       <header className="site-header">
-        <div className="container flex items-center justify-between py-5">
+        <div className="container header-bar">
           <Link href="/" className="brand-lockup" aria-label="Go to homepage">
             <span className="brand-seal">VSOP</span>
             <span className="brand-name">
-              <strong>Village School Of Parkwoods</strong>
+              <strong>Village School</strong>
               <small>of Parkwoods</small>
             </span>
           </Link>
 
-          <nav
-            className="hidden items-center gap-8 lg:flex"
-            aria-label="Main navigation"
-          >
-            {navLinks.map(({ label, href }) => (
+          <nav className="desktop-nav" aria-label="Main navigation">
+            {desktopLinks.map(({ label, href }) => (
               <Link
                 key={href}
                 href={href}
@@ -73,54 +101,161 @@ export default function Layout({ children }: LayoutProps) {
           </nav>
 
           <button
-            className="icon-button lg:hidden"
-            onClick={() => setMenuOpen((value) => !value)}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            type="button"
+            className="menu-toggle"
+            onClick={openMenu}
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            aria-controls={menuId}
           >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            <Menu size={22} />
           </button>
         </div>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="container pb-5 lg:hidden">
-            <div className="mobile-menu">
-              <Link href="/" onClick={closeMenu}>
-                Home <ArrowRight size={16} />
-              </Link>
-              {navLinks.map(({ label, href }) => (
-                <Link key={href} href={href} onClick={closeMenu}>
-                  {label} <ArrowRight size={16} />
-                </Link>
-              ))}
-              <Link
-                href="/contact"
-                className="mobile-menu-cta"
-                onClick={closeMenu}
-              >
-                Plan a visit <ArrowUpRight size={16} />
-              </Link>
-            </div>
-          </div>
-        )}
       </header>
 
-      {/* Page Content */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="nav-overlay"
+            id={menuId}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.button
+              type="button"
+              className="nav-overlay-backdrop"
+              aria-label="Close menu"
+              onClick={closeMenu}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+
+            <motion.aside
+              className="nav-overlay-panel"
+              initial={{ x: "105%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "105%" }}
+              transition={{ type: "spring", stiffness: 320, damping: 34 }}
+            >
+              <div className="nav-overlay-glow" aria-hidden="true" />
+
+              <div className="nav-overlay-top">
+                <Link
+                  href="/"
+                  className="brand-lockup"
+                  aria-label="Go to homepage"
+                  onClick={closeMenu}
+                >
+                  <span className="brand-seal">VSOP</span>
+                  <span className="brand-name">
+                    <strong>Village School</strong>
+                    <small>of Parkwoods</small>
+                  </span>
+                </Link>
+                <Magnet padding={28} magnetStrength={2.4}>
+                  <button
+                    type="button"
+                    className="menu-toggle menu-toggle--close"
+                    onClick={closeMenu}
+                    aria-label="Close menu"
+                  >
+                    <X size={22} />
+                  </button>
+                </Magnet>
+              </div>
+
+              <p className="nav-overlay-kicker">Explore VSOP</p>
+
+              <nav className="nav-overlay-links" aria-label="Mobile navigation">
+                {navLinks.map(({ label, href, hint }, index) => {
+                  const active = location === href;
+                  const isHot = hovered === href || active;
+                  return (
+                    <motion.div
+                      key={href}
+                      initial={{ opacity: 0, x: 36 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: 0.06 + index * 0.045,
+                        type: "spring",
+                        stiffness: 280,
+                        damping: 24,
+                      }}
+                      onMouseEnter={() => setHovered(href)}
+                      onMouseLeave={() => setHovered(null)}
+                      onFocus={() => setHovered(href)}
+                      onBlur={() => setHovered(null)}
+                    >
+                      <Link
+                        href={href}
+                        className={`nav-overlay-link${active ? " active" : ""}${isHot ? " hot" : ""}`}
+                        onClick={closeMenu}
+                      >
+                        <span className="nav-overlay-index">0{index + 1}</span>
+                        <span className="nav-overlay-copy">
+                          <span className="nav-overlay-label">{label}</span>
+                          <span className="nav-overlay-hint">{hint}</span>
+                        </span>
+                        <motion.span
+                          className="nav-overlay-arrow"
+                          animate={{ x: isHot ? 4 : 0, opacity: isHot ? 1 : 0.45 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 28 }}
+                        >
+                          <ArrowUpRight size={18} />
+                        </motion.span>
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </nav>
+
+              <motion.div
+                className="nav-overlay-footer"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.35 }}
+              >
+                <div>
+                  <p className="nav-overlay-footer-title">Visit the campus</p>
+                  <p className="nav-overlay-footer-text">
+                    Mon–Fri · 7:00 AM – 5:00 PM · Parkwood Hills
+                  </p>
+                </div>
+                <Magnet padding={36} magnetStrength={2.8} wrapperClassName="w-full">
+                  <Link
+                    href="/contact"
+                    className="nav-cta nav-overlay-cta"
+                    onClick={closeMenu}
+                  >
+                    Plan a visit <ArrowUpRight size={16} />
+                  </Link>
+                </Magnet>
+              </motion.div>
+            </motion.aside>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <main>
         <AnimatePresence mode="wait">
           <motion.div
             key={location}
-            initial={{ opacity: 0, y: 14 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
           >
             {children}
           </motion.div>
         </AnimatePresence>
       </main>
 
-      {/* Footer */}
       <footer className="footer-section">
         <div className="container footer-grid">
           <div className="footer-brand">

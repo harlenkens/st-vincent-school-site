@@ -1,0 +1,448 @@
+@use "variables" as *;
+
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+.page-blur-title {
+  margin: 0;
+  font-family: $font-display;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
+  color: $forest-deep;
+  font-size: clamp(2.2rem, 5.4vw, 4.4rem);
+
+  &--light {
+    color: #fff7e5;
+  }
+}
+
+.strands-tabs {
+  gap: 1.25rem;
+}
+
+.strands-tabs-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: auto;
+  gap: 0.45rem;
+  padding: 0.4rem;
+  background: #eee9df;
+  border-radius: 999px;
+}
+
+.strands-tab-trigger {
+  flex: 1 1 auto;
+  min-width: 4.5rem;
+  min-height: 40px;
+  border-radius: 999px !important;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.policy-accordion {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.policy-accordion .policy-accordion-item {
+  border: 1px solid $border;
+  border-radius: 1.1rem;
+  background: $card;
+  padding-inline: 1rem;
+}
+
+.policy-accordion .policy-header {
+  padding-block: 1rem;
+}
+
+.policy-accordion .policy-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.policy-accordion .policy-title-row h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: $ink;
+}
+
+.facility-dialog {
+  background: $card;
+  border: 1px solid $border;
+}
+
+.facility-dialog .facility-modal-img {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.primary-button,
+.outline-button,
+.text-button,
+.nav-cta,
+.campus-filter-btn,
+.voucher-cta {
+  min-height: 44px;
+}
+
+.campus-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 2rem 0 1.75rem;
+}
+
+.closing-section {
+  overflow: hidden;
+}
+
+// ─── Below decorate breakpoint: kill overlapping floats ───
+@include mq-down($bp-decorate) {
+  .visual-note,
+  .hero-sticker,
+  .campus-doodle {
+    display: none !important;
+  }
+
+  .hero-section {
+    min-height: unset !important;
+    overflow: hidden;
+  }
+
+  .hero-visual {
+    position: relative !important;
+    min-height: 0 !important;
+    max-width: 560px;
+    width: 100%;
+    margin-inline: auto;
+    justify-self: stretch !important;
+  }
+
+  .hero-photo-frame {
+    position: relative !important;
+    inset: auto !important;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    transform: none !important;
+    border-width: 8px;
+    border-radius: 1.75rem !important;
+  }
+
+  .campus-tag {
+    right: 0.75rem !important;
+    bottom: 0.85rem !important;
+    transform: rotate(2deg) !important;
+  }
+
+  .campus-photo-wrap {
+    overflow: hidden;
+    max-width: 640px;
+  }
+
+  .campus-photo-wrap:before {
+    inset: 4% 6% 8% 2% !important;
+    transform: rotate(-3deg) !important;
+  }
+
+  .home-links-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-grid,
+  .campus-grid,
+  .journey-intro,
+  .section-heading-row,
+  .track-record-card,
+  .heritage-card,
+  .contact-main-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+  }
+
+  .facility-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+  }
+
+  .page-blur-title {
+    font-size: clamp(2.1rem, 5vw, 3.4rem);
+  }
+
+  .closing-scribble {
+    opacity: 0.35;
+    font-size: 11rem !important;
+    right: -12% !important;
+  }
+}
+
+@include mq-down($bp-nav) {
+  .journey-path {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  .path-line,
+  .journey-arrow {
+    display: none !important;
+  }
+
+  .shs-branch {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@include mq-down($bp-md) {
+  .four-h-grid,
+  .terms-grid,
+  .pillars-grid,
+  .timeline-grid,
+  .specialized-spaces-grid,
+  .facility-cards-grid,
+  .strands-grid-2x2,
+  .journey-path {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-actions,
+  .hero-proof,
+  .parent-support-actions,
+  .modal-actions {
+    flex-wrap: wrap;
+  }
+
+  .voucher-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    gap: 1.1rem;
+  }
+
+  .voucher-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .parent-support-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .parent-support-actions {
+    flex-direction: column;
+    align-items: stretch;
+
+    .primary-button,
+    .outline-button,
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .section-pad {
+    padding-block: 3.75rem !important;
+  }
+
+  .closing-inner {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  .closing-inner h2,
+  .closing-inner .page-blur-title {
+    font-size: clamp(2.2rem, 9vw, 3.6rem) !important;
+    max-width: 100% !important;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+
+  .footer-note {
+    text-align: left !important;
+  }
+
+  .branch-items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+  }
+
+  .heritage-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.75rem !important;
+  }
+
+  .heritage-stat strong {
+    font-size: clamp(2.2rem, 6vw, 3rem);
+  }
+
+  .campus-photo-hint {
+    left: 1.25rem;
+    bottom: 1.25rem;
+  }
+}
+
+@include mq-down($bp-sm) {
+  .container {
+    padding-inline: 1.1rem !important;
+  }
+
+  .home-link-card {
+    align-items: flex-start;
+    padding: 1.1rem 1.15rem;
+  }
+
+  .hero-copy .hero-blur-title,
+  .hero-copy h1,
+  .page-blur-title {
+    display: block;
+    font-size: clamp(2.15rem, 10.5vw, 3.2rem) !important;
+    line-height: 1;
+    overflow-wrap: anywhere;
+  }
+
+  .section-intro h2,
+  .section-heading-row h2,
+  .campus-copy h2,
+  .terms-heading h2,
+  .journey-intro h2 {
+    font-size: clamp(2.05rem, 9.5vw, 3.1rem) !important;
+    word-break: break-word;
+  }
+
+  .hero-grid {
+    gap: 1.25rem;
+    padding-top: 2rem;
+    padding-bottom: 1.1rem;
+  }
+
+  .hero-bottom-note {
+    padding-bottom: 1.35rem;
+  }
+
+  .photo-caption {
+    bottom: 1rem;
+    left: 1rem;
+
+    strong {
+      font-size: 1.2rem;
+    }
+  }
+
+  .announcement-bar .container,
+  .announcement-inner {
+    justify-content: center;
+    text-align: center;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+  }
+
+  .announcement-aside {
+    display: none !important;
+  }
+
+  .branch-items,
+  .heritage-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  .term-card,
+  .h-card,
+  .pillar-card,
+  .journey-card,
+  .strand-action-card {
+    min-height: 0 !important;
+  }
+
+  .terms-grid > * {
+    height: auto;
+  }
+
+  .term-card {
+    min-height: 0 !important;
+  }
+
+  .term-card h3 {
+    font-size: clamp(1.55rem, 7vw, 2.1rem) !important;
+  }
+
+  .heritage-stat strong {
+    font-size: clamp(2.6rem, 12vw, 3.4rem);
+  }
+
+  .campus-photo-hint {
+    font-size: 0.55rem;
+  }
+
+  .strands-tabs-list {
+    border-radius: 1.1rem;
+  }
+
+  .strands-tab-trigger {
+    min-width: calc(50% - 0.35rem);
+  }
+
+  .facility-modal-body,
+  .contact-form-card {
+    padding: 1.25rem !important;
+  }
+
+  .primary-button,
+  .outline-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-actions,
+  .parent-support-actions,
+  .campus-copy .hero-actions {
+    > div {
+      display: block !important;
+      width: 100%;
+    }
+  }
+
+  .hero-actions .text-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .closing-scribble {
+    display: none !important;
+  }
+
+  .campus-tag {
+    position: static !important;
+    transform: none !important;
+    margin-top: 0.85rem;
+    width: fit-content;
+  }
+}

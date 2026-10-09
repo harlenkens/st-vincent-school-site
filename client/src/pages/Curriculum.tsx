@@ -21,6 +21,10 @@ import {
   Wrench,
 } from "lucide-react";
 import { Link } from "wouter";
+import BlurText from "@/components/react-bits/BlurText";
+import Magnet from "@/components/react-bits/Magnet";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const subjects = [
   {
@@ -136,39 +140,47 @@ export default function Curriculum() {
       {/* Curriculum Hero */}
       <section className="about-section section-pad">
         <div className="container about-grid">
-          <div className="section-intro">
-            <p className="eyebrow">
-              <span className="eyebrow-dot green-dot" /> Academic Framework
-            </p>
-            <h2>
-              Learning with <span>purpose.</span>
-            </h2>
-          </div>
-          <div className="about-copy">
-            <p className="large-copy">
-              VSOP implements the DepEd MATATAG curriculum — the revised K to 12
-              framework designed to decongest learning competencies and anchor
-              education on foundational skills, critical thinking, and moral
-              character.
-            </p>
-            <div className="about-details">
-              <div>
-                <strong>MATATAG Ready</strong>
-                <span>
-                  Modernized learning objectives focusing on literacy,
-                  numeracy, and 21st-century problem-solving capabilities.
-                </span>
-              </div>
-              <div>
-                <strong>4H Integration</strong>
-                <span>
-                  Head, Heart, Hand, and Human Relations woven into daily
-                  classroom engagement, laboratory experiments, and community
-                  projects.
-                </span>
+          <Reveal>
+            <div className="section-intro">
+              <p className="eyebrow">
+                <span className="eyebrow-dot green-dot" /> Academic Framework
+              </p>
+              <BlurText
+                as="h2"
+                text="Learning with purpose."
+                delay={60}
+                animateBy="words"
+                className="page-blur-title"
+              />
+            </div>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="about-copy">
+              <p className="large-copy">
+                VSOP implements the DepEd MATATAG curriculum — the revised K to 12
+                framework designed to decongest learning competencies and anchor
+                education on foundational skills, critical thinking, and moral
+                character.
+              </p>
+              <div className="about-details">
+                <div>
+                  <strong>MATATAG Ready</strong>
+                  <span>
+                    Modernized learning objectives focusing on literacy,
+                    numeracy, and 21st-century problem-solving capabilities.
+                  </span>
+                </div>
+                <div>
+                  <strong>4H Integration</strong>
+                  <span>
+                    Head, Heart, Hand, and Human Relations woven into daily
+                    classroom engagement, laboratory experiments, and community
+                    projects.
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -193,47 +205,43 @@ export default function Curriculum() {
             </p>
           </div>
 
-          <div className="terms-grid">
-            <article className="term-card">
-              <div className="term-number">01</div>
-              <p>Elementary</p>
-              <h3>Grades 1–6</h3>
-              <span>
-                Building robust literacy, numeracy, social skills, and character
-                habits in an encouraging environment.
-              </span>
-              <div className="term-bar">
-                <i style={{ width: "55%" }} />
-              </div>
-            </article>
-
-            <article className="term-card">
-              <div className="term-number">02</div>
-              <p>Junior High</p>
-              <h3>Grades 7–10</h3>
-              <span>
-                Deepening scientific inquiry, advanced math, humanities, and
-                exploratory TLE courses while preparing for high school exit
-                exams.
-              </span>
-              <div className="term-bar">
-                <i style={{ width: "75%" }} />
-              </div>
-            </article>
-
-            <article className="term-card">
-              <div className="term-number">03</div>
-              <p>Senior High</p>
-              <h3>Grades 11–12</h3>
-              <span>
-                Specialized tracks with work immersion, research capstones, and
-                preparation for university entrance tests (UPCAT, etc.).
-              </span>
-              <div className="term-bar">
-                <i style={{ width: "95%" }} />
-              </div>
-            </article>
-          </div>
+          <Stagger className="terms-grid" stagger={0.1}>
+            {[
+              {
+                n: "01",
+                level: "Elementary",
+                title: "Grades 1–6",
+                text: "Building robust literacy, numeracy, social skills, and character habits in an encouraging environment.",
+                width: "55%",
+              },
+              {
+                n: "02",
+                level: "Junior High",
+                title: "Grades 7–10",
+                text: "Deepening scientific inquiry, advanced math, humanities, and exploratory TLE courses while preparing for high school exit exams.",
+                width: "75%",
+              },
+              {
+                n: "03",
+                level: "Senior High",
+                title: "Grades 11–12",
+                text: "Specialized tracks with work immersion, research capstones, and preparation for university entrance tests (UPCAT, etc.).",
+                width: "95%",
+              },
+            ].map((item) => (
+              <StaggerItem key={item.n}>
+                <article className="term-card">
+                  <div className="term-number">{item.n}</div>
+                  <p>{item.level}</p>
+                  <h3>{item.title}</h3>
+                  <span>{item.text}</span>
+                  <div className="term-bar">
+                    <i style={{ width: item.width }} />
+                  </div>
+                </article>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
 
@@ -257,31 +265,37 @@ export default function Curriculum() {
             </p>
           </div>
 
-          <div className="four-h-grid" style={{ marginTop: "3.5rem" }}>
+          <Stagger
+            className="four-h-grid"
+            stagger={0.06}
+            style={{ marginTop: "3.5rem" }}
+          >
             {subjects.map(({ name, desc, icon: Icon, color }) => (
-              <article key={name} className={`h-card ${color} text-white`}>
-                <div className="h-card-top">
-                  <div className="subject-icon-box">
-                    <Icon size={22} strokeWidth={2.2} />
+              <StaggerItem key={name}>
+                <article className={`h-card ${color} text-white`}>
+                  <div className="h-card-top">
+                    <div className="subject-icon-box">
+                      <Icon size={22} strokeWidth={2.2} />
+                    </div>
+                    <ArrowUpRight
+                      size={18}
+                      style={{ opacity: 0.75 }}
+                      className="subject-action-arrow"
+                    />
                   </div>
-                  <ArrowUpRight
-                    size={18}
-                    style={{ opacity: 0.75 }}
-                    className="subject-action-arrow"
-                  />
-                </div>
-                <div>
-                  <h3 style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.1rem)" }}>
-                    {name}
-                  </h3>
-                  <p style={{ maxWidth: "100%", opacity: 0.9 }}>{desc}</p>
-                </div>
-                <div className="subject-action-cue">
-                  <span>MATATAG Core</span>
-                </div>
-              </article>
+                  <div>
+                    <h3 style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.1rem)" }}>
+                      {name}
+                    </h3>
+                    <p style={{ maxWidth: "100%", opacity: 0.9 }}>{desc}</p>
+                  </div>
+                  <div className="subject-action-cue">
+                    <span>MATATAG Core</span>
+                  </div>
+                </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -297,60 +311,75 @@ export default function Curriculum() {
             </h2>
           </div>
 
-          <div className="strands-grid-2x2">
+          <Tabs defaultValue={shsStrands[0].code} className="strands-tabs">
+            <TabsList className="strands-tabs-list">
+              {shsStrands.map((strand) => (
+                <TabsTrigger
+                  key={strand.code}
+                  value={strand.code}
+                  className="strands-tab-trigger"
+                >
+                  {strand.code}
+                </TabsTrigger>
+              ))}
+            </TabsList>
             {shsStrands.map((strand) => {
               const StrandIcon = strand.icon;
               return (
-                <article
-                  key={strand.code}
-                  className={`strand-action-card ${strand.color}`}
-                >
-                  <div className="strand-action-card-header">
-                    <span className="pillar-badge" style={{ marginBottom: 0 }}>
-                      {strand.code}
-                    </span>
-                    <div className="strand-icon-box">
-                      <StrandIcon size={20} strokeWidth={2} />
-                    </div>
-                  </div>
-                  <h3>{strand.name}</h3>
-                  <p style={{ fontStyle: "normal", marginBottom: "1.2rem" }}>
-                    {strand.desc}
-                  </p>
-                  <div
-                    style={{
-                      marginTop: "auto",
-                      borderTop: "1px solid rgba(255,255,255,0.2)",
-                      paddingTop: "0.85rem",
-                    }}
+                <TabsContent key={strand.code} value={strand.code}>
+                  <article
+                    className={`strand-action-card ${strand.color}`}
+                    style={{ minHeight: "280px" }}
                   >
-                    <small
+                    <div className="strand-action-card-header">
+                      <span className="pillar-badge" style={{ marginBottom: 0 }}>
+                        {strand.track}
+                      </span>
+                      <div className="strand-icon-box">
+                        <StrandIcon size={20} strokeWidth={2} />
+                      </div>
+                    </div>
+                    <h3>{strand.name}</h3>
+                    <p style={{ fontStyle: "normal", marginBottom: "1.2rem" }}>
+                      {strand.desc}
+                    </p>
+                    <div
                       style={{
-                        display: "block",
-                        textTransform: "uppercase",
-                        fontSize: "0.62rem",
-                        letterSpacing: "0.08em",
-                        marginBottom: "0.35rem",
-                        fontWeight: 800,
+                        marginTop: "auto",
+                        borderTop: "1px solid rgba(255,255,255,0.2)",
+                        paddingTop: "0.85rem",
                       }}
                     >
-                      Career Readiness:
-                    </small>
-                    <span style={{ fontSize: "0.72rem", opacity: 0.9 }}>
-                      {strand.careers.join(" · ")}
-                    </span>
-                  </div>
-                  <Link
-                    href={`/contact?strand=${encodeURIComponent(strand.code)}`}
-                    className="strand-action-btn"
-                  >
-                    <span>Inquire for {strand.code}</span>
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </article>
+                      <small
+                        style={{
+                          display: "block",
+                          textTransform: "uppercase",
+                          fontSize: "0.62rem",
+                          letterSpacing: "0.08em",
+                          marginBottom: "0.35rem",
+                          fontWeight: 800,
+                        }}
+                      >
+                        Career Readiness:
+                      </small>
+                      <span style={{ fontSize: "0.72rem", opacity: 0.9 }}>
+                        {strand.careers.join(" · ")}
+                      </span>
+                    </div>
+                    <Magnet padding={30} magnetStrength={3}>
+                      <Link
+                        href={`/contact?strand=${encodeURIComponent(strand.code)}`}
+                        className="strand-action-btn"
+                      >
+                        <span>Inquire for {strand.code}</span>
+                        <ArrowUpRight size={14} />
+                      </Link>
+                    </Magnet>
+                  </article>
+                </TabsContent>
               );
             })}
-          </div>
+          </Tabs>
 
           {/* DepEd ESC & Voucher Assistance Box */}
           <div className="voucher-banner" style={{ marginTop: "3rem" }}>
@@ -393,19 +422,25 @@ export default function Curriculum() {
             </p>
           </div>
 
-          <div className="specialized-spaces-grid" style={{ marginTop: "3rem" }}>
+          <Stagger
+            className="specialized-spaces-grid"
+            stagger={0.1}
+            style={{ marginTop: "3rem" }}
+          >
             {specializedSpaces.map((space) => (
-              <div key={space.title} className="space-showcase-card">
-                <div className="space-img-wrap">
-                  <img src={space.image} alt={space.title} loading="lazy" />
+              <StaggerItem key={space.title}>
+                <div className="space-showcase-card">
+                  <div className="space-img-wrap">
+                    <img src={space.image} alt={space.title} loading="lazy" />
+                  </div>
+                  <div className="space-showcase-body">
+                    <h4>{space.title}</h4>
+                    <p>{space.desc}</p>
+                  </div>
                 </div>
-                <div className="space-showcase-body">
-                  <h4>{space.title}</h4>
-                  <p>{space.desc}</p>
-                </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
 
           <div style={{ textAlign: "center", marginTop: "3rem" }}>
             <Link href="/campus" className="primary-button">

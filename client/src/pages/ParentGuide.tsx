@@ -1,23 +1,27 @@
-import { useState } from "react";
 import {
   ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
   BookOpen,
   CalendarDays,
-  CheckCircle2,
-  ChevronDown,
   Download,
-  HeartHandshake,
-  HelpCircle,
-  PhoneCall,
   Route,
   ShieldCheck,
-  Sparkles,
   Users,
 } from "lucide-react";
 import { Link } from "wouter";
 import { toast } from "sonner";
+import BlurText from "@/components/react-bits/BlurText";
+import CountUp from "@/components/react-bits/CountUp";
+import Magnet from "@/components/react-bits/Magnet";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 const journeySteps = [
   {
@@ -92,72 +96,71 @@ const essentialPolicies = [
 ];
 
 export default function ParentGuide() {
-  const [openPolicy, setOpenPolicy] = useState<number | null>(null);
-
   return (
     <>
       {/* Journey Hero */}
       <section className="journey-section section-pad">
         <div className="container">
-          <div className="journey-intro">
-            <div>
-              <p className="eyebrow">
-                <span className="eyebrow-dot coral-dot" /> For Parents & Guardians
-              </p>
-              <h2>
-                Your orientation,
-                <br />
-                <span>made clear.</span>
-              </h2>
+          <Reveal>
+            <div className="journey-intro">
+              <div>
+                <p className="eyebrow">
+                  <span className="eyebrow-dot coral-dot" /> For Parents & Guardians
+                </p>
+                <BlurText
+                  as="h2"
+                  text="Your orientation, made clear."
+                  delay={55}
+                  animateBy="words"
+                  className="page-blur-title"
+                />
+              </div>
+              <div className="journey-intro-copy">
+                <p>
+                  Think of this as your roadmap through the school year — from the
+                  first day of enrollment to your child’s next big milestone.
+                </p>
+                <span className="path-label">
+                  <Route size={16} /> The VSOP Parent Journey
+                </span>
+              </div>
             </div>
-            <div className="journey-intro-copy">
-              <p>
-                Think of this as your roadmap through the school year — from the
-                first day of enrollment to your child’s next big milestone.
-              </p>
-              <span className="path-label">
-                <Route size={16} /> The VSOP Parent Journey
-              </span>
-            </div>
-          </div>
+          </Reveal>
 
-          {/* Flowchart Path */}
-          <div
-            className="journey-path"
-            aria-label="Parent orientation journey flowchart"
-          >
+          <Stagger className="journey-path" stagger={0.08}>
             <div className="path-line" aria-hidden="true" />
             {journeySteps.map(
               ({ step, eyebrow, title, detail, icon: Icon, tone, href }, index) => (
-                <article
-                  key={step}
-                  className={`journey-card journey-card-${tone}`}
-                >
-                  <div className="journey-card-top">
-                    <span className="step-number">{step}</span>
-                    <Icon size={21} />
-                  </div>
-                  <p className="card-eyebrow">{eyebrow}</p>
-                  <h3>{title}</h3>
-                  <p>{detail}</p>
-                  <div style={{ marginTop: "auto", paddingTop: "0.8rem" }}>
-                    <Link
-                      href={href}
-                      className="text-button"
-                      style={{ fontSize: "0.72rem" }}
-                    >
-                      Learn more <ArrowRight size={13} />
-                    </Link>
-                  </div>
-                  {index < journeySteps.length - 1 && (
-                    <span className="journey-arrow" aria-hidden="true">
-                      <ArrowRight size={17} />
-                    </span>
-                  )}
-                </article>
+                <StaggerItem key={step}>
+                  <article
+                    className={`journey-card journey-card-${tone}`}
+                  >
+                    <div className="journey-card-top">
+                      <span className="step-number">{step}</span>
+                      <Icon size={21} />
+                    </div>
+                    <p className="card-eyebrow">{eyebrow}</p>
+                    <h3>{title}</h3>
+                    <p>{detail}</p>
+                    <div style={{ marginTop: "auto", paddingTop: "0.8rem" }}>
+                      <Link
+                        href={href}
+                        className="text-button"
+                        style={{ fontSize: "0.72rem" }}
+                      >
+                        Learn more <ArrowRight size={13} />
+                      </Link>
+                    </div>
+                    {index < journeySteps.length - 1 && (
+                      <span className="journey-arrow" aria-hidden="true">
+                        <ArrowRight size={17} />
+                      </span>
+                    )}
+                  </article>
+                </StaggerItem>
               ),
             )}
-          </div>
+          </Stagger>
 
           {/* SHS Branching Callout */}
           <div className="shs-branch">
@@ -209,15 +212,21 @@ export default function ParentGuide() {
               </p>
               <div className="heritage-stats">
                 <div className="heritage-stat">
-                  <strong>3</strong>
+                  <strong>
+                    <CountUp to={3} duration={1.2} />
+                  </strong>
                   <span>Terms per year</span>
                 </div>
                 <div className="heritage-stat">
-                  <strong>4</strong>
+                  <strong>
+                    <CountUp to={4} duration={1.2} />
+                  </strong>
                   <span>Quarterly PTCs</span>
                 </div>
                 <div className="heritage-stat">
-                  <strong>100%</strong>
+                  <strong>
+                    <CountUp to={100} duration={1.6} />%
+                  </strong>
                   <span>Dedicated faculty</span>
                 </div>
               </div>
@@ -238,72 +247,60 @@ export default function ParentGuide() {
             </h2>
           </div>
 
-          <div className="policy-cards-grid">
+          <Accordion type="single" collapsible className="policy-accordion">
             {essentialPolicies.map((policy, idx) => (
-              <div
+              <AccordionItem
                 key={policy.title}
-                className={`policy-accordion-item${
-                  openPolicy === idx ? " open" : ""
-                }`}
-                onClick={() =>
-                  setOpenPolicy(openPolicy === idx ? null : idx)
-                }
+                value={`policy-${idx}`}
+                className="policy-accordion-item"
               >
-                <div className="policy-header">
+                <AccordionTrigger className="policy-header hover:no-underline">
                   <div className="policy-title-row">
                     <span className="policy-num">0{idx + 1}</span>
                     <h4>{policy.title}</h4>
                   </div>
-                  <ChevronDown
-                    size={18}
-                    className="policy-arrow"
-                    style={{
-                      transform:
-                        openPolicy === idx ? "rotate(180deg)" : "rotate(0deg)",
-                      transition: "transform 0.2s ease",
-                    }}
-                  />
-                </div>
-                <div
-                  className="policy-body"
-                  style={{
-                    display: openPolicy === idx ? "block" : "none",
-                  }}
-                >
+                </AccordionTrigger>
+                <AccordionContent className="policy-body">
                   <p>{policy.desc}</p>
-                </div>
-              </div>
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
 
-          {/* Quick Action Box */}
-          <div className="parent-support-box" style={{ marginTop: "3.5rem" }}>
-            <div>
-              <h3>Have questions about enrollment or school policies?</h3>
-              <p>
-                Our administration desk is happy to assist with student
-                guidelines, requirements, and visit appointments.
-              </p>
+          <Reveal delay={0.1}>
+            <div className="parent-support-box" style={{ marginTop: "3.5rem" }}>
+              <div>
+                <h3>Have questions about enrollment or school policies?</h3>
+                <p>
+                  Our administration desk is happy to assist with student
+                  guidelines, requirements, and visit appointments.
+                </p>
+              </div>
+              <div className="parent-support-actions">
+                <Magnet padding={30} magnetStrength={3}>
+                  <Button asChild className="primary-button h-auto rounded-full px-5 py-3">
+                    <Link href="/contact">
+                      <span>Contact the office</span>
+                      <ArrowUpRight size={16} />
+                    </Link>
+                  </Button>
+                </Magnet>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="outline-button h-auto rounded-full px-5 py-3"
+                  onClick={() =>
+                    toast.info(
+                      "The 2026-2027 Student Handbook PDF will be downloadable once finalized before term start.",
+                    )
+                  }
+                >
+                  <Download size={16} />
+                  <span>Student Handbook PDF</span>
+                </Button>
+              </div>
             </div>
-            <div className="parent-support-actions">
-              <Link href="/contact" className="primary-button">
-                <span>Contact the office</span>
-                <ArrowUpRight size={16} />
-              </Link>
-              <button
-                type="button"
-                className="outline-button"
-                onClick={() =>
-                  toast.info(
-                    "The 2026-2027 Student Handbook PDF will be downloadable once finalized before term start.",
-                  )
-                }
-              >
-                <Download size={16} />
-                <span>Student Handbook PDF</span>
-              </button>
-            </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

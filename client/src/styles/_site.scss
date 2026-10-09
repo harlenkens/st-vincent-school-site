@@ -21,64 +21,31 @@
     background: #123e31;
     color: #f7f2e8;
   }
-  .brand-lockup {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.7rem;
-    border: 0;
-    background: transparent;
-    color: #18241f;
-    padding: 0;
-    text-align: left;
-  }
-  .brand-seal {
-    width: 40px;
-    height: 40px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: #f4c531;
-    color: #123e31;
-    font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: -0.06em;
-    transform: rotate(-7deg);
-    box-shadow: 3px 3px 0 #123e31;
-  }
-  .brand-name {
+  .announcement-inner {
     display: flex;
-    flex-direction: column;
-    line-height: 1;
-    font-size: 0.74rem;
-    letter-spacing: 0.08em;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.5rem;
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.18em;
   }
-  .brand-name strong {
-    font-weight: 800;
+  .announcement-aside {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+
+    @media (min-width: 640px) {
+      display: inline-flex;
+    }
   }
-  .brand-name small {
-    margin-top: 0.35rem;
-    font-size: 0.58rem;
-    letter-spacing: 0.2em;
-    color: #6d736d;
+  .site-shell {
+    min-height: 100vh;
+    background: #f7f2e8;
+    color: #18241f;
   }
-  .nav-link {
-    border: 0;
-    background: transparent;
-    color: #506057;
-    font-size: 0.77rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    transition:
-      color 0.18s ease,
-      transform 0.18s ease;
-  }
-  .nav-link:hover {
-    color: #0f5a45;
-    transform: translateY(-1px);
-  }
-  .nav-cta,
   .primary-button,
   .outline-button {
     display: inline-flex;
@@ -95,62 +62,15 @@
       box-shadow 0.18s ease,
       background 0.18s ease;
   }
-  .nav-cta {
-    padding: 0.7rem 1.05rem;
-    background: #0f5a45;
-    color: #fff7e5;
-  }
-  .nav-cta:hover,
   .primary-button:hover,
   .outline-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 18px rgba(15, 90, 69, 0.16);
   }
-  .nav-cta:active,
   .primary-button:active,
   .outline-button:active,
-  .text-button:active,
-  .icon-button:active {
+  .text-button:active {
     transform: scale(0.97);
-  }
-  .icon-button {
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    border: 1px solid #dcd8ce;
-    border-radius: 50%;
-    background: #fffdf8;
-    color: #123e31;
-  }
-  .mobile-menu {
-    display: grid;
-    gap: 0.25rem;
-    padding: 0.7rem;
-    border: 1px solid #dcd8ce;
-    border-radius: 1.3rem;
-    background: #fffdf8;
-    box-shadow: 0 15px 30px rgba(22, 38, 30, 0.08);
-  }
-  .mobile-menu button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 0;
-    border-radius: 0.9rem;
-    background: transparent;
-    padding: 0.8rem 1rem;
-    color: #18241f;
-    font-weight: 700;
-    text-align: left;
-  }
-  .mobile-menu button:hover {
-    background: #f0ece3;
-  }
-  .mobile-menu .mobile-menu-cta {
-    margin-top: 0.3rem;
-    background: #0f5a45;
-    color: #fff7e5;
   }
 
   .hero-section {
@@ -812,6 +732,17 @@
   .campus-photo-wrap {
     position: relative;
     padding: 1rem;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .campus-photo-wrap:focus-visible {
+    outline: 2px solid #0f5a45;
+    outline-offset: 6px;
+    border-radius: 1.5rem;
   }
   .campus-photo-wrap:before {
     content: "";
@@ -821,14 +752,62 @@
     background: #f4c531;
     transform: rotate(-5deg);
   }
-  .campus-photo-wrap img {
+  .campus-photo-stack {
     position: relative;
     z-index: 1;
     width: 100%;
     aspect-ratio: 1 / 0.93;
-    object-fit: cover;
     border-radius: 1.4rem;
+    overflow: hidden;
+    background: #d4d2c8;
+  }
+  .campus-photo-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
     filter: saturate(0.82);
+  }
+  .campus-photo-hint {
+    position: absolute;
+    left: 1.6rem;
+    bottom: 1.6rem;
+    z-index: 3;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(18, 62, 49, 0.78);
+    color: #fff7e5;
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .campus-photo-dots {
+    position: absolute;
+    top: 1.6rem;
+    left: 50%;
+    z-index: 3;
+    display: flex;
+    gap: 0.35rem;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .campus-photo-dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 253, 248, 0.45);
+    box-shadow: 0 1px 3px rgba(18, 62, 49, 0.2);
+  }
+  .campus-photo-dots i.is-active {
+    background: #fffdf8;
+    transform: scale(1.15);
   }
   .campus-tag {
     position: absolute;
@@ -843,6 +822,7 @@
     color: #fff;
     transform: rotate(4deg);
     box-shadow: 0 10px 22px rgba(123, 47, 35, 0.18);
+    pointer-events: none;
   }
   .campus-tag span {
     font-size: 0.57rem;
@@ -861,6 +841,7 @@
     color: #0f5a45;
     font-size: 3.1rem;
     transform: rotate(18deg);
+    pointer-events: none;
   }
   .campus-copy > p:not(.eyebrow) {
     max-width: 465px;
@@ -916,10 +897,21 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 0.9rem;
     margin-top: 3.5rem;
+    align-items: stretch;
+  }
+  /* StaggerItem wrappers must fill the grid cell so bars align */
+  .terms-grid > * {
+    display: flex;
+    height: 100%;
+    min-height: 0;
   }
   .term-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     min-height: 255px;
+    height: 100%;
     padding: 1.5rem;
     border-radius: 1.15rem;
     background: #fffdf8;
@@ -945,26 +937,29 @@
     margin: 0;
     color: #123e31;
     font-family: "Bricolage Grotesque", sans-serif;
-    font-size: 2.45rem;
+    font-size: clamp(1.65rem, 2.4vw, 2.45rem);
     letter-spacing: -0.075em;
-    line-height: 0.9;
+    line-height: 0.95;
   }
   .term-card > span {
     display: block;
-    max-width: 235px;
+    max-width: 280px;
     margin-top: 0.8rem;
     color: #7a817b;
     font-size: 0.75rem;
     line-height: 1.45;
   }
   .term-bar {
-    position: absolute;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    left: 1.5rem;
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;
     height: 5px;
+    margin-top: auto;
     border-radius: 999px;
     background: #e6ebe4;
+  }
+  .term-card:has(.term-bar) > span {
+    margin-bottom: 1.25rem;
   }
   .term-bar i {
     display: block;
@@ -972,10 +967,10 @@
     border-radius: inherit;
     background: #0f5a45;
   }
-  .term-card:nth-child(2) .term-bar i {
+  .terms-grid > *:nth-child(2) .term-bar i {
     background: #e66550;
   }
-  .term-card:nth-child(3) .term-bar i {
+  .terms-grid > *:nth-child(3) .term-bar i {
     background: #f4c531;
   }
 
@@ -1246,32 +1241,7 @@
 }
 
 
-/* ═══════════════════════════════════════════════
-   Layout: Sticky Header & Active Nav
-   ═══════════════════════════════════════════════ */
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(247, 242, 232, 0.95);
-  backdrop-filter: blur(16px);
-}
-
-.nav-link.active {
-  color: #0f5a45;
-  position: relative;
-}
-.nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #0f5a45;
-  border-radius: 999px;
-}
+/* Header styles live in _header.scss */
 
 /* ═══════════════════════════════════════════════
    Home: Explore Links Grid
@@ -1723,17 +1693,30 @@
 .heritage-stat strong {
   display: block;
   font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 2.2rem;
+  font-size: clamp(2.75rem, 4.5vw, 3.6rem);
+  font-weight: 800;
   color: #0f5a45;
-  letter-spacing: -0.05em;
-  line-height: 1;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
 }
-.heritage-stat span {
+/* CountUp renders a span — keep it at the strong size, not the label size */
+.heritage-stat strong span {
+  display: inline;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  margin: 0;
+  line-height: inherit;
+}
+.heritage-stat > span {
   display: block;
   color: #7a817b;
   font-size: 0.72rem;
   font-weight: 700;
-  margin-top: 0.35rem;
+  margin-top: 0.45rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
