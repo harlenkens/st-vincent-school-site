@@ -6,6 +6,7 @@ import {
   Sparkles,
   X,
 } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { Link, useLocation } from "wouter";
 
 interface LayoutProps {
@@ -105,7 +106,19 @@ export default function Layout({ children }: LayoutProps) {
       </header>
 
       {/* Page Content */}
-      <main>{children}</main>
+      <main>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+          >
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </main>
 
       {/* Footer */}
       <footer className="footer-section">

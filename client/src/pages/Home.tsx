@@ -6,9 +6,11 @@ import {
   BookOpen,
   MapPin,
   Route,
-  Sparkles,
   Users,
 } from "lucide-react";
+import AnimatedContent from "@/components/react-bits/AnimatedContent";
+import BlurText from "@/components/react-bits/BlurText";
+import FadeContent from "@/components/react-bits/FadeContent";
 
 const terms = [
   {
@@ -40,9 +42,14 @@ export default function Home() {
             <p className="eyebrow">
               <span className="eyebrow-dot" /> A school for the whole child
             </p>
-            <h1>
-              Grow in more <em>than one</em> direction.
-            </h1>
+            <BlurText
+              as="h1"
+              text="Grow in more than one direction."
+              delay={80}
+              animateBy="words"
+              direction="bottom"
+              className="hero-blur-title"
+            />
             <p className="hero-lede">
               At the Village School of Parkwoods, learning is a lived experience
               — thoughtful, joyful, hands-on, and deeply human.
@@ -107,14 +114,16 @@ export default function Home() {
       {/* Explore VSOP Quick Links */}
       <section className="section-pad" style={{ background: "#fffdf8" }}>
         <div className="container">
-          <div className="section-intro">
-            <p className="eyebrow">
-              <span className="eyebrow-dot coral-dot" /> Explore VSOP
-            </p>
-            <h2>
-              Everything in <span>one place.</span>
-            </h2>
-          </div>
+          <AnimatedContent distance={40} duration={0.7} threshold={0.15}>
+            <div className="section-intro">
+              <p className="eyebrow">
+                <span className="eyebrow-dot coral-dot" /> Explore VSOP
+              </p>
+              <h2>
+                Everything in <span>one place.</span>
+              </h2>
+            </div>
+          </AnimatedContent>
           <div className="home-links-grid">
             {[
               {
@@ -147,17 +156,19 @@ export default function Home() {
                 href: "/contact",
                 icon: ArrowUpRight,
               },
-            ].map(({ label, desc, href, icon: Icon }) => (
-              <Link key={href} href={href} className="home-link-card">
-                <div className="home-link-icon">
-                  <Icon size={20} />
-                </div>
-                <div>
-                  <strong>{label}</strong>
-                  <span>{desc}</span>
-                </div>
-                <ArrowRight size={16} className="home-link-arrow" />
-              </Link>
+            ].map(({ label, desc, href, icon: Icon }, index) => (
+              <FadeContent key={href} delay={index * 0.08} duration={0.7}>
+                <Link href={href} className="home-link-card">
+                  <div className="home-link-icon">
+                    <Icon size={20} />
+                  </div>
+                  <div>
+                    <strong>{label}</strong>
+                    <span>{desc}</span>
+                  </div>
+                  <ArrowRight size={16} className="home-link-arrow" />
+                </Link>
+              </FadeContent>
             ))}
           </div>
         </div>
