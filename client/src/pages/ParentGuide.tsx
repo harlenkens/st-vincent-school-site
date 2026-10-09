@@ -21,6 +21,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { contactInquiryHref } from "@/lib/inquiry";
 
 const journeySteps = [
   {
@@ -277,7 +278,7 @@ export default function ParentGuide() {
               </div>
               <div className="parent-support-actions">
                 <Button asChild className="primary-button h-auto rounded-full px-5 py-3">
-                  <Link href="/contact">
+                  <Link href={contactInquiryHref({ topic: "general" })}>
                     <span>Contact the office</span>
                     <ArrowUpRight size={16} />
                   </Link>

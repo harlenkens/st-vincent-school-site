@@ -19,6 +19,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { contactInquiryHref } from "@/lib/inquiry";
 
 interface Facility {
   id: string;
@@ -261,7 +262,10 @@ export default function Campus() {
                 </div>
               </div>
               <div className="hero-actions" style={{ marginTop: "1.8rem" }}>
-                <Link href="/contact" className="primary-button">
+                <Link
+                  href={contactInquiryHref({ topic: "visit" })}
+                  className="primary-button"
+                >
                   Schedule a campus visit <ArrowUpRight size={16} />
                 </Link>
                 <a
@@ -438,7 +442,10 @@ export default function Campus() {
               </div>
 
               <div style={{ marginTop: "2rem" }}>
-                <Link href="/contact" className="primary-button">
+                <Link
+                  href={contactInquiryHref({ topic: "visit" })}
+                  className="primary-button"
+                >
                   Book a guided tour <ArrowUpRight size={16} />
                 </Link>
               </div>
@@ -490,7 +497,10 @@ export default function Campus() {
                 </div>
                 <div className="modal-actions">
                   <Link
-                    href="/contact"
+                    href={contactInquiryHref({
+                      topic: "facility",
+                      facility: selectedFacility.name,
+                    })}
                     className="primary-button"
                     onClick={() => setSelectedFacility(null)}
                   >

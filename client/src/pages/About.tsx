@@ -14,6 +14,7 @@ import { Link } from "wouter";
 import BlurText from "@/components/react-bits/BlurText";
 import CountUp from "@/components/react-bits/CountUp";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { contactInquiryHref } from "@/lib/inquiry";
 
 const fourHs = [
   {
@@ -387,7 +388,10 @@ export default function About() {
                 <p>
                   Experience the warmth and dedication of our faculty firsthand.
                 </p>
-                <Link href="/contact" className="primary-button mt-4">
+                <Link
+                  href={contactInquiryHref({ topic: "enrollment" })}
+                  className="primary-button mt-4"
+                >
                   Inquire for enrollment <ArrowUpRight size={16} />
                 </Link>
               </div>

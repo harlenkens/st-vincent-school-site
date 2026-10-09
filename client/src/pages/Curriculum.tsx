@@ -18,6 +18,7 @@ import {
 import { Link } from "wouter";
 import BlurText from "@/components/react-bits/BlurText";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { contactInquiryHref } from "@/lib/inquiry";
 
 const subjects = [
   {
@@ -317,7 +318,10 @@ export default function Curriculum() {
                       <span>{strand.careers.join(" · ")}</span>
                     </div>
                     <Link
-                      href={`/contact?strand=${encodeURIComponent(strand.code)}`}
+                      href={contactInquiryHref({
+                        topic: "strand",
+                        strand: strand.code,
+                      })}
                       className="strand-action-btn"
                     >
                       <span>Inquire for {strand.code}</span>
@@ -343,7 +347,10 @@ export default function Curriculum() {
                 VSOP accessible and affordable.
               </p>
             </div>
-            <Link href="/contact" className="voucher-cta">
+            <Link
+              href={contactInquiryHref({ topic: "voucher" })}
+              className="voucher-cta"
+            >
               Inquire about vouchers <ArrowUpRight size={16} />
             </Link>
           </div>

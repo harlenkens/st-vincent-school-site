@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CheckCircle2,
   Clock,
@@ -7,6 +7,7 @@ import {
   Send,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useSearch } from "wouter";
 import BlurText from "@/components/react-bits/BlurText";
 import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
@@ -20,17 +21,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { INQUIRY_TOPICS, resolveInquiryPrefill } from "@/lib/inquiry";
+
+const DEFAULT_FORM = {
+  parentName: "",
+  contactNumber: "",
+  email: "",
+  gradeLevel: "Elementary (Grades 1–6)",
+  inquiryType: "Enrollment & Admissions",
+  message: "",
+};
 
 export default function Contact() {
+  const search = useSearch();
+  const formCardRef = useRef<HTMLDivElement>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    parentName: "",
-    contactNumber: "",
-    email: "",
-    gradeLevel: "Elementary (Grades 1–6)",
-    inquiryType: "Enrollment & Admissions",
-    message: "",
-  });
+  const [formData, setFormData] = useState(DEFAULT_FORM);
+
+  useEffect(() => {
+    const prefill = resolveInquiryPrefill(search);
+    if (!prefill) return;
+
+    setFormSubmitted(false);
+    setFormData((current) => ({
+      ...current,
+      inquiryType: prefill.inquiryType,
+      gradeLevel: prefill.gradeLevel ?? current.gradeLevel,
+      message: prefill.message ?? current.message,
+    }));
+
+    const timer = window.setTimeout(() => {
+      formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+
+    return () => window.clearTimeout(timer);
+  }, [search]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -134,7 +159,7 @@ export default function Contact() {
 
           <div className="contact-main-grid" style={{ marginTop: "4rem" }}>
             <Reveal>
-              <div className="contact-form-card">
+              <div className="contact-form-card" ref={formCardRef} id="inquiry-form">
                 <div style={{ marginBottom: "1.8rem" }}>
                   <p className="eyebrow" style={{ marginBottom: "0.5rem" }}>
                     <span className="eyebrow-dot coral-dot" /> Send a Message
@@ -177,14 +202,7 @@ export default function Contact() {
                       className="outline-button mt-4 h-auto rounded-full"
                       onClick={() => {
                         setFormSubmitted(false);
-                        setFormData({
-                          parentName: "",
-                          contactNumber: "",
-                          email: "",
-                          gradeLevel: "Elementary (Grades 1–6)",
-                          inquiryType: "Enrollment & Admissions",
-                          message: "",
-                        });
+                        setFormData(DEFAULT_FORM);
                       }}
                     >
                       Send another inquiry
@@ -266,30 +284,21 @@ export default function Contact() {
                       <div className="space-y-2">
                         <Label>Inquiry Topic</Label>
                         <Select
+                          key={`inquiry-topic-${formData.inquiryType}`}
                           value={formData.inquiryType}
                           onValueChange={(value) =>
                             setFormData({ ...formData, inquiryType: value })
                           }
                         >
                           <SelectTrigger className="w-full">
-                            <SelectValue />
+                            <SelectValue placeholder="Select a topic" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="Enrollment & Admissions">
-                              Enrollment & Admissions
-                            </SelectItem>
-                            <SelectItem value="Campus Visit / Tour">
-                              Campus Visit / Tour
-                            </SelectItem>
-                            <SelectItem value="DepEd Voucher Assistance">
-                              DepEd Voucher Assistance
-                            </SelectItem>
-                            <SelectItem value="Tuition & Payment Options">
-                              Tuition & Payment Options
-                            </SelectItem>
-                            <SelectItem value="General Question">
-                              General Question
-                            </SelectItem>
+                            {INQUIRY_TOPICS.map((topic) => (
+                              <SelectItem key={topic} value={topic}>
+                                {topic}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>

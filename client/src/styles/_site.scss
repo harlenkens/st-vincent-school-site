@@ -761,6 +761,8 @@
 
   .campus-section {
     background: #fffdf8;
+    /* Keep swipe flings from creating a page scrollbar */
+    overflow: clip;
   }
   .campus-grid {
     display: grid;

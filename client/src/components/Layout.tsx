@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Link, useLocation } from "wouter";
+import { contactInquiryHref } from "@/lib/inquiry";
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -93,7 +95,10 @@ export default function Layout({ children }: LayoutProps) {
                 {label}
               </Link>
             ))}
-            <Link href="/contact" className="nav-cta">
+            <Link
+              href={contactInquiryHref({ topic: "visit" })}
+              className="nav-cta"
+            >
               Plan a visit <ArrowUpRight size={16} />
             </Link>
           </nav>
@@ -224,7 +229,7 @@ export default function Layout({ children }: LayoutProps) {
                   </p>
                 </div>
                 <Link
-                  href="/contact"
+                  href={contactInquiryHref({ topic: "visit" })}
                   className="nav-cta nav-overlay-cta"
                   onClick={closeMenu}
                 >
