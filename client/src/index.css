@@ -2383,9 +2383,28 @@
 .parent-support-actions {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1rem;
   flex-shrink: 0;
   flex-wrap: wrap;
+}
+
+.parent-support-actions .primary-button,
+.parent-support-actions .outline-button {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  height: 48px;
+  padding: 0 1.45rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+  border-radius: 999px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  text-decoration: none;
 }
 
 @media (max-width: 899px) {
@@ -2394,3 +2413,114 @@
     align-items: flex-start;
   }
 }
+
+/* 2x2 SHS Academic Strands Action Cards */
+.strands-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .strands-grid-2x2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.strand-action-card {
+  padding: 2.2rem 2rem;
+  border-radius: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  overflow: hidden;
+}
+
+.strand-action-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.12);
+}
+
+.strand-action-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.strand-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(4px);
+}
+
+.strand-action-btn {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.65rem 1.15rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  width: fit-content;
+  transition: background 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.strand-action-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: translateX(3px);
+}
+
+/* Core Disciplines (What We Teach) Action Cards */
+.subject-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s ease, background 0.22s ease;
+}
+
+.h-card:hover .subject-icon-box {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.subject-action-cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.82;
+  margin-top: 1rem;
+  transition: opacity 0.2s ease;
+}
+
+.h-card:hover .subject-action-cue {
+  opacity: 1;
+}
+
+/* Heritage Section Spacing and Border */
+.heritage-section-wrapper {
+  margin-top: 3rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid #dcd8ce;
+}
+

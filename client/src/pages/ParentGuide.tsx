@@ -176,9 +176,16 @@ export default function ParentGuide() {
       </section>
 
       {/* Real Orientation Showcase Card */}
-      <section className="section-pad bg-cream" style={{ paddingTop: 0 }}>
+      <section className="heritage-section-wrapper section-pad bg-cream">
         <div className="container">
-          <div className="heritage-card">
+          <div
+            className="heritage-card"
+            style={{
+              marginTop: "1.5rem",
+              border: "1.5px solid #d4cfc3",
+              boxShadow: "0 12px 30px rgba(18, 62, 49, 0.06)",
+            }}
+          >
             <div className="heritage-image">
               <img
                 src="/images/parent-guide-orientation.jpg"
@@ -280,9 +287,11 @@ export default function ParentGuide() {
             </div>
             <div className="parent-support-actions">
               <Link href="/contact" className="primary-button">
-                Contact the office <ArrowUpRight size={16} />
+                <span>Contact the office</span>
+                <ArrowUpRight size={16} />
               </Link>
               <button
+                type="button"
                 className="outline-button"
                 onClick={() =>
                   toast.info(
@@ -290,7 +299,8 @@ export default function ParentGuide() {
                   )
                 }
               >
-                <Download size={15} /> Student Handbook PDF
+                <Download size={16} />
+                <span>Student Handbook PDF</span>
               </button>
             </div>
           </div>

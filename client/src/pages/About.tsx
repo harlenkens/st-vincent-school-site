@@ -148,9 +148,16 @@ export default function About() {
       </section>
 
       {/* Visual Feature: School Seal & Heritage */}
-      <section className="section-pad bg-cream" style={{ paddingTop: "0" }}>
+      <section className="heritage-section-wrapper section-pad bg-cream">
         <div className="container">
-          <div className="heritage-card">
+          <div
+            className="heritage-card"
+            style={{
+              marginTop: "1.5rem",
+              border: "1.5px solid #d4cfc3",
+              boxShadow: "0 12px 30px rgba(18, 62, 49, 0.06)",
+            }}
+          >
             <div className="heritage-image">
               <img
                 src="/images/about-school-seal.jpg"
