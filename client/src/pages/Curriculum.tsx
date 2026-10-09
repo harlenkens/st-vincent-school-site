@@ -2,11 +2,9 @@ import {
   Activity,
   ArrowRight,
   ArrowUpRight,
-  Award,
   BookOpen,
   Briefcase,
   Calculator,
-  CheckCircle2,
   Compass,
   FileCheck,
   FlaskConical,
@@ -14,17 +12,12 @@ import {
   GraduationCap,
   HeartHandshake,
   Languages,
-  Layers,
-  Sparkles,
   TrendingUp,
-  Users,
   Wrench,
 } from "lucide-react";
 import { Link } from "wouter";
 import BlurText from "@/components/react-bits/BlurText";
-import Magnet from "@/components/react-bits/Magnet";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const subjects = [
   {
@@ -266,31 +259,22 @@ export default function Curriculum() {
           </div>
 
           <Stagger
-            className="four-h-grid"
+            className="four-h-grid subjects-grid"
             stagger={0.06}
             style={{ marginTop: "3.5rem" }}
           >
             {subjects.map(({ name, desc, icon: Icon, color }) => (
               <StaggerItem key={name}>
-                <article className={`h-card ${color} text-white`}>
-                  <div className="h-card-top">
-                    <div className="subject-icon-box">
-                      <Icon size={22} strokeWidth={2.2} />
+                <article className={`h-card subject-card ${color} text-white`}>
+                  <div className="subject-card-copy">
+                    <h3>{name}</h3>
+                    <p>{desc}</p>
+                    <div className="subject-action-cue">
+                      <span>MATATAG Core</span>
                     </div>
-                    <ArrowUpRight
-                      size={18}
-                      style={{ opacity: 0.75 }}
-                      className="subject-action-arrow"
-                    />
                   </div>
-                  <div>
-                    <h3 style={{ fontSize: "clamp(1.5rem, 2.5vw, 2.1rem)" }}>
-                      {name}
-                    </h3>
-                    <p style={{ maxWidth: "100%", opacity: 0.9 }}>{desc}</p>
-                  </div>
-                  <div className="subject-action-cue">
-                    <span>MATATAG Core</span>
+                  <div className="subject-icon-box" aria-hidden="true">
+                    <Icon size={20} strokeWidth={2} />
                   </div>
                 </article>
               </StaggerItem>
@@ -311,26 +295,12 @@ export default function Curriculum() {
             </h2>
           </div>
 
-          <Tabs defaultValue={shsStrands[0].code} className="strands-tabs">
-            <TabsList className="strands-tabs-list">
-              {shsStrands.map((strand) => (
-                <TabsTrigger
-                  key={strand.code}
-                  value={strand.code}
-                  className="strands-tab-trigger"
-                >
-                  {strand.code}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          <Stagger className="strands-grid-2x2" stagger={0.08}>
             {shsStrands.map((strand) => {
               const StrandIcon = strand.icon;
               return (
-                <TabsContent key={strand.code} value={strand.code}>
-                  <article
-                    className={`strand-action-card ${strand.color}`}
-                    style={{ minHeight: "280px" }}
-                  >
+                <StaggerItem key={strand.code}>
+                  <article className={`strand-action-card ${strand.color}`}>
                     <div className="strand-action-card-header">
                       <span className="pillar-badge" style={{ marginBottom: 0 }}>
                         {strand.track}
@@ -339,47 +309,25 @@ export default function Curriculum() {
                         <StrandIcon size={20} strokeWidth={2} />
                       </div>
                     </div>
+                    <p className="strand-code-label">{strand.code}</p>
                     <h3>{strand.name}</h3>
-                    <p style={{ fontStyle: "normal", marginBottom: "1.2rem" }}>
-                      {strand.desc}
-                    </p>
-                    <div
-                      style={{
-                        marginTop: "auto",
-                        borderTop: "1px solid rgba(255,255,255,0.2)",
-                        paddingTop: "0.85rem",
-                      }}
-                    >
-                      <small
-                        style={{
-                          display: "block",
-                          textTransform: "uppercase",
-                          fontSize: "0.62rem",
-                          letterSpacing: "0.08em",
-                          marginBottom: "0.35rem",
-                          fontWeight: 800,
-                        }}
-                      >
-                        Career Readiness:
-                      </small>
-                      <span style={{ fontSize: "0.72rem", opacity: 0.9 }}>
-                        {strand.careers.join(" · ")}
-                      </span>
+                    <p className="strand-desc">{strand.desc}</p>
+                    <div className="strand-careers">
+                      <small>Career Readiness:</small>
+                      <span>{strand.careers.join(" · ")}</span>
                     </div>
-                    <Magnet padding={30} magnetStrength={3}>
-                      <Link
-                        href={`/contact?strand=${encodeURIComponent(strand.code)}`}
-                        className="strand-action-btn"
-                      >
-                        <span>Inquire for {strand.code}</span>
-                        <ArrowUpRight size={14} />
-                      </Link>
-                    </Magnet>
+                    <Link
+                      href={`/contact?strand=${encodeURIComponent(strand.code)}`}
+                      className="strand-action-btn"
+                    >
+                      <span>Inquire for {strand.code}</span>
+                      <ArrowUpRight size={14} />
+                    </Link>
                   </article>
-                </TabsContent>
+                </StaggerItem>
               );
             })}
-          </Tabs>
+          </Stagger>
 
           {/* DepEd ESC & Voucher Assistance Box */}
           <div className="voucher-banner" style={{ marginTop: "3rem" }}>

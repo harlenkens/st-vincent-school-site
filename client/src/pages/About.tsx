@@ -13,7 +13,6 @@ import {
 import { Link } from "wouter";
 import BlurText from "@/components/react-bits/BlurText";
 import CountUp from "@/components/react-bits/CountUp";
-import Magnet from "@/components/react-bits/Magnet";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const fourHs = [
@@ -388,11 +387,9 @@ export default function About() {
                 <p>
                   Experience the warmth and dedication of our faculty firsthand.
                 </p>
-                <Magnet padding={36} magnetStrength={3} wrapperClassName="mt-4 inline-block">
-                  <Link href="/contact" className="primary-button">
-                    Inquire for enrollment <ArrowUpRight size={16} />
-                  </Link>
-                </Magnet>
+                <Link href="/contact" className="primary-button mt-4">
+                  Inquire for enrollment <ArrowUpRight size={16} />
+                </Link>
               </div>
             </div>
           </div>

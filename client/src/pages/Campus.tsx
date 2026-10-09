@@ -11,7 +11,6 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { Link } from "wouter";
 import BlurText from "@/components/react-bits/BlurText";
-import Magnet from "@/components/react-bits/Magnet";
 import { Reveal } from "@/components/motion/Reveal";
 import {
   Dialog,
@@ -217,12 +216,14 @@ export default function Campus() {
       <section className="campus-section section-pad">
         <div className="container campus-grid">
           <Reveal>
-            <div className="campus-photo-wrap">
-              <img
-                src="/images/campus-hero-exterior.jpg"
-                alt="Village School of Parkwoods campus building in Parkwood Hills"
-                loading="lazy"
-              />
+            <div className="campus-photo-wrap campus-photo-wrap--static">
+              <div className="campus-photo-stack">
+                <img
+                  src="/images/campus-hero-exterior.jpg"
+                  alt="Village School of Parkwoods campus building in Parkwood Hills"
+                  loading="eager"
+                />
+              </div>
               <div className="campus-tag">
                 <span>Parkwood Hills</span>
                 <strong>Our Campus Home</strong>
@@ -260,11 +261,9 @@ export default function Campus() {
                 </div>
               </div>
               <div className="hero-actions" style={{ marginTop: "1.8rem" }}>
-                <Magnet padding={34} magnetStrength={3}>
-                  <Link href="/contact" className="primary-button">
-                    Schedule a campus visit <ArrowUpRight size={16} />
-                  </Link>
-                </Magnet>
+                <Link href="/contact" className="primary-button">
+                  Schedule a campus visit <ArrowUpRight size={16} />
+                </Link>
                 <a
                   href="#facilities"
                   className="text-button"
@@ -286,7 +285,7 @@ export default function Campus() {
       {/* Facilities Showcase Section */}
       <section id="facilities" className="section-pad bg-cream">
         <div className="container">
-          <div className="section-heading-row">
+          <div className="section-heading-row section-heading-row--light">
             <div>
               <p className="eyebrow">
                 <span className="eyebrow-dot coral-dot" /> Real Campus Spaces

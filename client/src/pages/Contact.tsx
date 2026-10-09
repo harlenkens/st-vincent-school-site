@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import BlurText from "@/components/react-bits/BlurText";
-import Magnet from "@/components/react-bits/Magnet";
 import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -309,14 +308,12 @@ export default function Contact() {
                       />
                     </div>
 
-                    <Magnet padding={40} magnetStrength={3} wrapperClassName="w-full block">
-                      <Button
-                        type="submit"
-                        className="primary-button mt-2 h-auto w-full rounded-full py-3"
-                      >
-                        Send Inquiry <Send size={15} />
-                      </Button>
-                    </Magnet>
+                    <Button
+                      type="submit"
+                      className="primary-button mt-2 h-auto w-full rounded-full py-3"
+                    >
+                      Send Inquiry <Send size={15} />
+                    </Button>
                   </form>
                 )}
               </div>

@@ -7,8 +7,6 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { Link, useLocation } from "wouter";
-import Magnet from "@/components/react-bits/Magnet";
-
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -158,16 +156,14 @@ export default function Layout({ children }: LayoutProps) {
                     <small>of Parkwoods</small>
                   </span>
                 </Link>
-                <Magnet padding={28} magnetStrength={2.4}>
-                  <button
-                    type="button"
-                    className="menu-toggle menu-toggle--close"
-                    onClick={closeMenu}
-                    aria-label="Close menu"
-                  >
-                    <X size={22} />
-                  </button>
-                </Magnet>
+                <button
+                  type="button"
+                  className="menu-toggle menu-toggle--close"
+                  onClick={closeMenu}
+                  aria-label="Close menu"
+                >
+                  <X size={22} />
+                </button>
               </div>
 
               <p className="nav-overlay-kicker">Explore VSOP</p>
@@ -227,15 +223,13 @@ export default function Layout({ children }: LayoutProps) {
                     Mon–Fri · 7:00 AM – 5:00 PM · Parkwood Hills
                   </p>
                 </div>
-                <Magnet padding={36} magnetStrength={2.8} wrapperClassName="w-full">
-                  <Link
-                    href="/contact"
-                    className="nav-cta nav-overlay-cta"
-                    onClick={closeMenu}
-                  >
-                    Plan a visit <ArrowUpRight size={16} />
-                  </Link>
-                </Magnet>
+                <Link
+                  href="/contact"
+                  className="nav-cta nav-overlay-cta"
+                  onClick={closeMenu}
+                >
+                  Plan a visit <ArrowUpRight size={16} />
+                </Link>
               </motion.div>
             </motion.aside>
           </motion.div>

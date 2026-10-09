@@ -91,6 +91,39 @@ body {
   }
 }
 
+.facility-dialog [data-slot="dialog-close"] {
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(18, 62, 49, 0.9);
+  color: #fff7e5;
+  opacity: 1;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+  transition: background 0.18s ease, transform 0.18s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover {
+    background: #e66550;
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid #f4c531;
+    outline-offset: 2px;
+  }
+}
+
 img,
 svg,
 video {
@@ -167,7 +200,7 @@ video {
   }
 
   .home-links-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
   }
 
   .about-grid,
@@ -315,9 +348,19 @@ video {
     padding-inline: 1.1rem !important;
   }
 
+  .home-links-grid {
+    grid-template-columns: 1fr !important;
+  }
+
   .home-link-card {
     align-items: flex-start;
     padding: 1.1rem 1.15rem;
+  }
+
+  .campus-carousel-controls {
+    top: auto;
+    bottom: 4.2rem;
+    right: 1.1rem;
   }
 
   .hero-copy .hero-blur-title,

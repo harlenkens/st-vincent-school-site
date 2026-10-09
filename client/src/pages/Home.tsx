@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "wouter";
 import {
   ArrowDownRight,
@@ -9,9 +8,11 @@ import {
   Route,
   Users,
 } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import BlurText from "@/components/react-bits/BlurText";
-import Magnet from "@/components/react-bits/Magnet";
+import CampusPhotoCarousel, {
+  type CampusSlide,
+} from "@/components/CampusPhotoCarousel";
 import { FadeIn, Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/button";
 
@@ -40,12 +41,6 @@ const exploreLinks = [
     href: "/campus",
     icon: MapPin,
   },
-  {
-    label: "Get in Touch",
-    desc: "Enrollment inquiries, office hours, and plan a campus visit.",
-    href: "/contact",
-    icon: ArrowUpRight,
-  },
 ];
 
 const terms = [
@@ -66,7 +61,7 @@ const terms = [
   },
 ];
 
-const campusGallery = [
+const campusGallery: CampusSlide[] = [
   {
     src: "/images/home-campus-exterior.jpg",
     alt: "Village School of Parkwoods campus building in Parkwood Hills",
@@ -86,6 +81,12 @@ const campusGallery = [
     title: "Room to grow.",
   },
   {
+    src: "/images/campus-instructional-room.jpg",
+    alt: "Instructional room ready for daily learning",
+    label: "Learning Rooms",
+    title: "Ask and try.",
+  },
+  {
     src: "/images/campus-library.jpg",
     alt: "School library at Village School of Parkwoods",
     label: "Quiet Study",
@@ -94,19 +95,60 @@ const campusGallery = [
   {
     src: "/images/campus-science-lab.jpg",
     alt: "Science laboratory at Village School of Parkwoods",
-    label: "Labs",
-    title: "Hands-on learning.",
+    label: "Science Lab",
+    title: "Hands-on discovery.",
+  },
+  {
+    src: "/images/campus-computer-lab.jpg",
+    alt: "Computer laboratory at Village School of Parkwoods",
+    label: "Computer Lab",
+    title: "Digital fluency.",
+  },
+  {
+    src: "/images/campus-tle-room.jpg",
+    alt: "TLE and home economics room",
+    label: "TLE Room",
+    title: "Skills for life.",
+  },
+  {
+    src: "/images/campus-activity-hall.jpg",
+    alt: "Activity hall for gatherings and programs",
+    label: "Activity Hall",
+    title: "Gather and celebrate.",
+  },
+  {
+    src: "/images/campus-canteen.jpg",
+    alt: "School canteen and dining area",
+    label: "Canteen",
+    title: "Shared meals.",
+  },
+  {
+    src: "/images/campus-clinic.jpg",
+    alt: "School clinic for student care",
+    label: "Clinic",
+    title: "Care nearby.",
+  },
+  {
+    src: "/images/campus-guidance-office.jpg",
+    alt: "Guidance office for student support",
+    label: "Guidance",
+    title: "Someone to listen.",
+  },
+  {
+    src: "/images/campus-information-desk.jpg",
+    alt: "Campus information desk and school seal",
+    label: "Front Desk",
+    title: "Welcome in.",
+  },
+  {
+    src: "/images/campus-admin-office.jpg",
+    alt: "Administrative office at Village School of Parkwoods",
+    label: "Admin Office",
+    title: "Here to help.",
   },
 ];
 
 export default function Home() {
-  const [campusIndex, setCampusIndex] = useState(0);
-  const campusPhoto = campusGallery[campusIndex];
-
-  const cycleCampusPhoto = () => {
-    setCampusIndex((current) => (current + 1) % campusGallery.length);
-  };
-
   return (
     <>
       <section id="top" className="hero-section">
@@ -140,13 +182,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5 }}
             >
-              <Magnet padding={40} magnetStrength={3}>
-                <Button asChild className="primary-button h-auto rounded-full px-5 py-3">
-                  <Link href="/parent-guide">
-                    See the parent journey <ArrowUpRight size={17} />
-                  </Link>
-                </Button>
-              </Magnet>
+              <Button asChild className="primary-button h-auto rounded-full px-5 py-3">
+                <Link href="/parent-guide">
+                  See the parent journey <ArrowUpRight size={17} />
+                </Link>
+              </Button>
               <Link href="/about" className="text-button">
                 Meet VSOP <ArrowRight size={16} />
               </Link>
@@ -249,43 +289,7 @@ export default function Home() {
       <section className="campus-section section-pad" style={{ paddingTop: 0 }}>
         <div className="container campus-grid">
           <Reveal>
-            <button
-              type="button"
-              className="campus-photo-wrap"
-              onClick={cycleCampusPhoto}
-              aria-label={`View next campus photo (${campusIndex + 1} of ${campusGallery.length})`}
-            >
-              <div className="campus-photo-stack">
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.img
-                    key={campusPhoto.src}
-                    src={campusPhoto.src}
-                    alt={campusPhoto.alt}
-                    loading="lazy"
-                    initial={{ opacity: 0, scale: 1.03 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.99 }}
-                    transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                  />
-                </AnimatePresence>
-                <span className="campus-photo-hint">Click to change</span>
-                <span className="campus-photo-dots" aria-hidden="true">
-                  {campusGallery.map((photo, index) => (
-                    <i
-                      key={photo.src}
-                      className={index === campusIndex ? "is-active" : undefined}
-                    />
-                  ))}
-                </span>
-              </div>
-              <div className="campus-tag">
-                <span>{campusPhoto.label}</span>
-                <strong>{campusPhoto.title}</strong>
-              </div>
-              <div className="campus-doodle" aria-hidden="true">
-                ↗
-              </div>
-            </button>
+            <CampusPhotoCarousel slides={campusGallery} />
           </Reveal>
           <Reveal delay={0.12}>
             <div className="campus-copy">
@@ -311,11 +315,9 @@ export default function Home() {
                   </span>
                 </div>
               </div>
-              <Magnet padding={36} magnetStrength={3.2}>
-                <Link href="/campus" className="outline-button">
-                  Explore campus facilities <ArrowUpRight size={16} />
-                </Link>
-              </Magnet>
+              <Link href="/campus" className="outline-button">
+                Explore campus facilities <ArrowUpRight size={16} />
+              </Link>
             </div>
           </Reveal>
         </div>

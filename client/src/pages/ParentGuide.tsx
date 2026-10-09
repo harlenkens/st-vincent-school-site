@@ -13,7 +13,6 @@ import { Link } from "wouter";
 import { toast } from "sonner";
 import BlurText from "@/components/react-bits/BlurText";
 import CountUp from "@/components/react-bits/CountUp";
-import Magnet from "@/components/react-bits/Magnet";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import {
   Accordion,
@@ -277,14 +276,12 @@ export default function ParentGuide() {
                 </p>
               </div>
               <div className="parent-support-actions">
-                <Magnet padding={30} magnetStrength={3}>
-                  <Button asChild className="primary-button h-auto rounded-full px-5 py-3">
-                    <Link href="/contact">
-                      <span>Contact the office</span>
-                      <ArrowUpRight size={16} />
-                    </Link>
-                  </Button>
-                </Magnet>
+                <Button asChild className="primary-button h-auto rounded-full px-5 py-3">
+                  <Link href="/contact">
+                    <span>Contact the office</span>
+                    <ArrowUpRight size={16} />
+                  </Link>
+                </Button>
                 <Button
                   type="button"
                   variant="outline"
