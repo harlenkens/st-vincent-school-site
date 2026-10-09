@@ -9,6 +9,7 @@
     "start": "NODE_ENV=production node dist/index.js",
     "preview": "vite preview --host",
     "check": "tsc --noEmit",
+    "check:all": "tsc --noEmit && prettier --check .",
     "format": "prettier --write ."
   },
   "dependencies": {
